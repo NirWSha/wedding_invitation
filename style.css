@@ -1,0 +1,372 @@
+/* 🛠️ MOBILE ZOOM & OVERFLOW FIXES */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevents horizontal scrolling/zooming */
+    position: relative;
+}
+
+/* Fix for the video to ensure it never goes wider than the screen */
+.video-section {
+    max-width: 100vw;
+    overflow: hidden;
+}
+
+/* Ensure the floral border doesn't create extra width */
+body::after {
+    box-sizing: border-box;
+    max-width: 100%;
+}
+:root {
+    --royal-gold: #d4af37;
+    --deep-maroon: #630d0d;
+    --cream: #fffdf5;
+}
+
+body, html { margin: 0; padding: 0; background: var(--cream); font-family: 'Playfair Display', serif; overflow-x: hidden; }
+
+/* 👑 ROYAL CSS BORDER (NO IMAGE REQUIRED) */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Creates a double-line gold frame */
+    border: 8px double var(--royal-gold);
+    /* Inset gives it a 'frame' depth */
+    outline: 4px solid var(--deep-maroon);
+    outline-offset: -12px;
+    pointer-events: none;
+    z-index: 9999;
+    box-sizing: border-box;
+}
+
+/* Adds Decorative Corner Accents */
+body::before {
+    content: "N ♾️ S"; /* You can also use "🕉️","🔸" or "🌺" */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 10000;
+    color: var(--royal-gold);
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px var(--deep-maroon);
+}
+
+/* Adjustments for Desktop */
+@media (min-width: 768px) {
+    body::after {
+        border-width: 12px;
+        outline-width: 6px;
+        outline-offset: -18px;
+    }
+}
+
+/* INTRO LAYER */
+#intro-overlay {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: radial-gradient(circle, #2c0404, #000);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    transition: 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+#intro-overlay.slide-up { transform: translateY(-100%); }
+
+/* ✨ CSS GOLD SPARKLES */
+.royal-bg-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 80%);
+    overflow: hidden;
+}
+.royal-bg-animation::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background-image: 
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+        radial-gradient(var(--royal-gold), rgba(212,175,55,.1) 1px, transparent 30px);
+    background-size: 100px 100px, 150px 150px;
+    background-position: 0 0, 40px 60px;
+    animation: glitterMove 20s linear infinite;
+    opacity: 0.4;
+}
+@keyframes glitterMove {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100px); }
+}
+
+.intro-content { text-align: center; color: white; z-index: 2; padding: 15px; width: 100%; }
+.intro-ganesh { width: 60px; height: auto; object-fit: contain; margin-bottom: 10px; animation: floating 3s infinite alternate; }
+
+/* ✨ NAME TRANSITIONS */
+.royal-title { font-family: 'Dancing Script'; font-size: 3.2rem; margin-bottom: 25px; overflow: hidden; }
+.name1, .name2, .amp { display: inline-block; opacity: 0; }
+.name1 { color: var(--royal-gold); animation: slideRight 1.5s 0.5s ease-out forwards; }
+.amp { color: white; font-size: 2.2rem; animation: bloom 2s 1.5s ease-out forwards; }
+.name2 { color: var(--royal-gold); animation: slideLeft 1.5s 0.5s ease-out forwards; }
+
+@keyframes slideRight { 0% { transform: translateX(-50px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; text-shadow: 0 0 15px rgba(212,175,55,0.6); } }
+@keyframes slideLeft { 0% { transform: translateX(50px); opacity: 0; } 100% { transform: translateX(0); opacity: 1; text-shadow: 0 0 15px rgba(212,175,55,0.6); } }
+@keyframes bloom { 0% { transform: scale(0); opacity: 0; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 1; text-shadow: 0 0 20px #fff; } }
+
+/* SCRATCH BOX */
+.scratch-container {
+    position: relative; width: 180px; height: 70px; margin: 0 auto;
+    background: white; border-radius: 12px; overflow: hidden;
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+}
+.revealed-date {
+    position: absolute; width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: var(--deep-maroon); background: var(--cream); z-index: 1;
+}
+.revealed-date p { font-size: 0.7rem; letter-spacing: 3px; margin-bottom: 1px; font-weight: bold; }
+.revealed-date h2 { font-size: 1.8rem; font-weight: bold; margin: 0; }
+#scratch-canvas { position: absolute; top: 0; left: 0; cursor: crosshair; touch-action: none; z-index: 5; transition: opacity 0.5s; }
+
+/*  HEADER */
+.traditional-header { 
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    padding: 60px 20px 30px 20px; /* Increased top padding for the border */
+    text-align: center;
+}
+
+.main-ganesh { 
+    width: 90px; 
+    height: auto; 
+    object-fit: contain; 
+    margin-bottom: 15px;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+}
+
+.hindi-text { 
+    font-family: 'Hind', sans-serif; 
+    font-size: 2.5rem; /* Slightly reduced to fit symbols on one line on mobile */
+    color: var(--deep-maroon); 
+    margin: 0; 
+    line-height: 1.2;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between symbols and text */
+}
+
+.royal-symbol {
+    color: var(--royal-gold);
+    font-size: 1.8rem; /* Symbols are slightly smaller than text for elegance */
+    display: inline-block;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2));
+}
+
+/* 📱 Mobile Specific Tweak */
+@media (max-width: 480px) {
+    .hindi-text {
+        font-size: 1.8rem; /* Ensures it doesn't wrap/zoom on small screens */
+    }
+    .royal-symbol {
+        font-size: 1.4rem;
+    }
+}
+
+/* 📱 MOBILE-FIRST VIDEO */
+.video-section { 
+    position: relative; 
+    width: 100%; 
+    height: auto; 
+    min-height: 250px; 
+    background: transparent; /* CHANGE #1: Changed from #000 to transparent */
+    overflow: visible; 
+}
+
+.prewedding-video { 
+    width: 100%; 
+    height: auto; 
+    object-fit: contain; 
+    display: block;
+    margin-bottom: -2px; /* CHANGE #2: Add this to hide the bottom gap */
+}
+
+/* TIMER BOX */
+.royal-countdown { position: absolute; bottom: -25px; width: 100%; z-index: 100; }
+.timer-box {
+    display: flex; justify-content: center; gap: 6px; background: var(--deep-maroon);
+    width: 92%; max-width: 450px; margin: 0 auto; padding: 12px 5px;
+    border: 2px solid var(--royal-gold); border-radius: 40px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+.unit { text-align: center; width: 50px; }
+.unit span { font-size: 1.2rem; color: var(--royal-gold); font-weight: bold; display: block; }
+.unit p { color: white; font-size: 0.45rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+/* 🛠️ LAYOUT FIXER */
+.main-content-wrapper {
+    width: 100%;
+    padding-top: 80px; /* Pushes content down so countdown doesn't hit it */
+    background: var(--cream);
+    display: flex;
+    justify-content: center;
+}
+
+.hindi-card-container {
+    width: 90%;
+    max-width: 700px;
+    margin: 20px auto;
+}
+
+.royal-border-box {
+    background: white;
+    padding: 30px 15px;
+    border: 2px solid var(--royal-gold);
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    position: relative;
+}
+
+/* 🖋️ TEXT STYLING */
+.shloka-text {
+    font-family: 'Hind', sans-serif;
+    font-size: 0.9rem;
+    color: var(--deep-maroon);
+    line-height: 1.6;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.patrika-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.title-label {
+    font-size: 0.8rem;
+    color: var(--royal-gold);
+    letter-spacing: 2px;
+}
+
+.patrika-name {
+    font-family: 'Hind', sans-serif;
+    font-size: 2.2rem;
+    color: var(--deep-maroon);
+    margin: 5px 0;
+    font-weight: 700;
+}
+
+.relation-text {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 2px;
+}
+
+.parent-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--deep-maroon);
+    margin: 0;
+}
+
+/* 💠 DIVIDER */
+.patrika-mid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.gold-line {
+    flex: 1;
+    height: 1px;
+    background: var(--royal-gold);
+    max-width: 50px;
+}
+
+.sang-text {
+    color: var(--royal-gold);
+    font-weight: bold;
+    font-family: 'Hind', sans-serif;
+}
+
+.invitation-footer {
+    margin-top: 30px;
+    font-family: 'Hind', sans-serif;
+    color: var(--deep-maroon);
+    font-style: italic;
+}
+
+/* 📱 DESKTOP FIX */
+@media (min-width: 768px) {
+    .patrika-flex {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .patrika-mid { flex-direction: column; height: 100px; }
+    .gold-line { width: 1px; height: 40px; }
+    .patrika-name { font-size: 2.8rem; }
+    .main-content-wrapper { padding-top: 120px; }
+}
+
+/* 📸 MEMORIES (Fix: Object-fit cover ensures photos are not stretched) */
+.section-title { font-family: 'Dancing Script'; font-size: 2.8rem; text-align: center; margin: 70px 0 30px; color: var(--deep-maroon); }
+.slideshow-container { 
+    position: relative; 
+    width: 90%; 
+    height: 350px; 
+    margin: 0 auto; 
+    overflow: hidden; 
+    border: 5px solid white; 
+    border-radius: 12px; 
+    background-color: #000;
+}
+.mySlides { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; /* FIX: Prevents stretching by cropping the edges instead */
+    object-position: center;
+    position: absolute; 
+    opacity: 0; 
+    transition: opacity 1.5s; 
+}
+.mySlides.active { opacity: 1; }
+
+.map-wrapper iframe { width: 90%; height: 300px; border: 5px solid white; border-radius: 12px; display: block; margin: 0 auto; }
+
+footer { background: #111; color: white; text-align: center; padding: 40px 20px; margin-top: 50px; position: relative; z-index: 10; }
+.social-links a { color: var(--royal-gold); text-decoration: none; margin: 0 10px; font-size: 0.9rem; }
+.fade-in { opacity: 0; transform: translateY(20px); transition: 1.2s ease-out; }
+.fade-in.appear { opacity: 1; transform: translateY(0); }
+
+@keyframes floating { from { transform: translateY(0); } to { transform: translateY(-15px); } }
+
+/* DESKTOP TWEAKS */
+@media (min-width: 768px) {
+    body::after { border-width: 25px; }
+    .royal-title { font-size: 4.5rem; }
+    .hindi-text { font-size: 4rem; }
+    .main-ganesh { width: 120px; } 
+    .timer-box { width: fit-content; gap: 20px; padding: 15px 35px; }
+    .unit span { font-size: 2rem; }
+    .unit p { font-size: 0.6rem; }
+    .slideshow-container { height: 550px; }
+}
