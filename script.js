@@ -85,6 +85,18 @@ function autoEnter() {
         document.getElementById('intro-overlay').classList.add('slide-up');
         document.getElementById('main-site').classList.remove('hidden');
         initScrollReveal();
+
+        // --- VIDEO AUTOPLAY FIX ---
+        // This plays the video when the main site shows
+        const video = document.getElementById('wedding-video');
+        if (video) {
+            // Using a promise catch just in case a mobile browser is extra strict
+            video.play().catch(error => {
+                console.log("Browser prevented autoplay:", error);
+            });
+        }
+        // --------------------------
+
     }, 800);
 }
 
